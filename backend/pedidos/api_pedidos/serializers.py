@@ -1,4 +1,4 @@
-from api_pedidos.models import Restaurante, Menus, Platos
+from api_pedidos.models import Restaurante, Menus, Platos, Pedido
 from rest_framework import serializers
 
 class RestauranteSerializer(serializers.ModelSerializer):
@@ -14,4 +14,9 @@ class PlatosSerializer(serializers.ModelSerializer):
 class MenusSerializer(serializers.ModelSerializer):
     class Meta:
         model = Menus
+        fields = '__all__'
+
+class PedidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pedido
         fields = '__all__'

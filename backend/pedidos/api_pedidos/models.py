@@ -26,18 +26,15 @@ class Menus(models.Model):
     restaurante_ID = models.ForeignKey('Restaurante',on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=256)
     precio = models.DecimalField(decimal_places=2, max_digits=16)
+    peso = models.DecimalField(decimal_places=2, max_digits=4)
+    volumen = models.DecimalField(decimal_places=2, max_digits=4)
 
 class Platos(models.Model):
     restaurante_ID = models.ForeignKey('Restaurante',on_delete=models.CASCADE)
     descripcion = models.CharField(max_length=256)
     precio = models.DecimalField(decimal_places=2, max_digits=16)
-
-class Reclamo_Pedido(models.Model):
-    reclamo_ID = models.AutoField(primary_key=True)
-    cliente_ID = models.ForeignKey('Cliente', on_delete=models.SET_NULL, blank=True, null=True)
-    pedido_ID = models.ForeignKey('Pedido', on_delete=models.CASCADE)
-    texto_reclamo = models.CharField(max_length=1024)
-    pass
+    peso = models.DecimalField(decimal_places=2, max_digits=4)
+    volumen = models.DecimalField(decimal_places=2, max_digits=4)
 
 class Pedido(models.Model):
     pedido_ID = models.AutoField(primary_key=True)
@@ -51,7 +48,7 @@ class Pedido(models.Model):
             (2, "En curso"),
             (3, "Cancelado"),
             )
-    estado = models.PositiveSmallIntegerField(choices=POSIBLES_ESTADOS, null=True, blank=True)
+    estado = models.PositiveSmallIntegerField(choices=POSIBLES_ESTADOS, default=1, null=True, blank=True)
 
     direccion = models.CharField(max_length=512, null=False, blank= False)
     fecha_pedido = models.DateTimeField(auto_now=False, auto_now_add=False, default=timezone.now)

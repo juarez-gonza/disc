@@ -1,7 +1,11 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from api_pedidos.models import Restaurante, Menus, Platos
-from api_pedidos.serializers import RestauranteSerializer, MenusSerializer, PlatosSerializer
+from api_pedidos.models import Restaurante, Menus, Platos, Pedido
+from api_pedidos.serializers import RestauranteSerializer, MenusSerializer, PlatosSerializer, PedidoSerializer
+
+from django.shortcuts import get_object_or_404
+
+import decimal
 
 # Create your views here.
 
@@ -20,6 +24,40 @@ def platos_menus_api(request, rte_id):
     if request.method == 'GET':
         platos_y_menus = stub_platos_y_menus(rte_id)
         return Response(platos_y_menus, status=200)
+    return Response({'message': 'Bad-Request, non-valid method for this endpoint'}, status=400)
+
+@api_view(["GET", "POST"])
+def pedidos_cliente_api(request, cli_id):
+    if request.method == 'GET':
+        pedidos = Pedido.objects.filter(cliente_ID=cli_id)
+        pedido_serializer = PedidoSerializer(pedidos, many=True)
+        return Response(pedido_serializer.data)
+
+    if request.method == 'POST':
+        peso = decimal.Decimal(0)
+        volumen = decimal.Decimal(0)
+
+        for p in request.data["platos"]:
+            plato = get_object_or_404(Platos, pk=p)
+            peso += plato.peso
+            volumen += plato.volumen
+
+        for m in request.data["menus"]:
+            menu = get_object_or_404(Menus, pk=m)
+            peso += menu.peso
+            volumen += menu.volumen
+
+        request.data["peso"] = peso
+        request.data["volumen"] = volumen
+        request.data["cliente_ID"] = cli_id
+
+        pedido_serializer = PedidoSerializer(data = request.data)
+        if not pedido_serializer.is_valid():
+            return Response(pedido_serializer.errors, status=404)
+
+        pedido_serializer.save()
+        return Response(pedido_serializer.data, status=200)
+
     return Response({'message': 'Bad-Request, non-valid method for this endpoint'}, status=400)
 
 ####### STUBS PARA COMUNICACION CON MODULO RESTAURANTES #######
