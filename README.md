@@ -20,7 +20,7 @@ http://localhost:8000/pedidos/pedidos/<id_usuario> carga lista de pedidos hechos
 
 usando `fetch` de javascript (built-in):
 
-`
+```
 /*
 llamar a esta funcion retorna los pedidos de un usuario
 un pedido tiene la forma:
@@ -115,4 +115,4 @@ function get_platos_y_menus_restaurante(restaurante_id)
     return data.json();
   });
 }
-`
+```
