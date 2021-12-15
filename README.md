@@ -1,4 +1,10 @@
-docker:
+## DEPENDENCIAS
+- Docker
+- Docker-compose
+
+## PASOS PARA SU EJECUCIÓN
+Una vez con docker y docker-compose instalados,
+seguir las siguientes instrucciones por línea de comandos:
 `docker-compose up`
 
 para entrar al container corriendo django:
@@ -17,6 +23,8 @@ http://localhost:8000/pedidos/restaurantes/<id_restaurante> carga lista de menus
 
 http://localhost:8000/pedidos/pedidos/<id_usuario> carga lista de pedidos hechos por el usuario
 
+
+## PARA HACER HTTP REQUESTS DESDE JAVASCRIPT
 
 usando `fetch` de javascript (built-in):
 
