@@ -10,9 +10,4 @@ class Admin_Pedidos(admin.ModelAdmin):
     list_filter = ("pedido_ID", "precio_final", "direccion", "estado",
             "cliente_ID", "restaurante_ID", "fecha_pedido")
 
-#admin.site.register(Pedido, Admin_Pedidos)
-admin.site.register(Pedido)
-admin.site.register(Restaurante)
-admin.site.register(Platos)
-admin.site.register(Menus)
-admin.site.register(Cliente)
+admin.site.register(Pedido, Admin_Pedidos)

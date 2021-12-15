@@ -48,7 +48,7 @@ class Pedido(models.Model):
             (2, "En curso"),
             (3, "Cancelado"),
             )
-    estado = models.PositiveSmallIntegerField(choices=POSIBLES_ESTADOS, default=1, null=True, blank=True)
+    estado = models.PositiveSmallIntegerField(choices=POSIBLES_ESTADOS, default=2, null=True, blank=True)
 
     direccion = models.CharField(max_length=512, null=False, blank= False)
     fecha_pedido = models.DateTimeField(auto_now=False, auto_now_add=False, default=timezone.now)

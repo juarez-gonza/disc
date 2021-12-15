@@ -36,6 +36,7 @@ def pedidos_cliente_api(request, cli_id):
     if request.method == 'POST':
         peso = decimal.Decimal(0)
         volumen = decimal.Decimal(0)
+        rte_ID = None
 
         for p in request.data["platos"]:
             plato = get_object_or_404(Platos, pk=p)
@@ -46,10 +47,15 @@ def pedidos_cliente_api(request, cli_id):
             menu = get_object_or_404(Menus, pk=m)
             peso += menu.peso
             volumen += menu.volumen
+            rte_id = menu.restaurante_ID.restaurante_ID
+
+        if rte_id == None:
+            return Response({'message': 'Bad-Request, Can\'t ask for a delivery to a non existing entity'}, status=400)
 
         request.data["peso"] = peso
         request.data["volumen"] = volumen
         request.data["cliente_ID"] = cli_id
+        request.data["restaurante_ID"] = rte_id
 
         pedido_serializer = PedidoSerializer(data = request.data)
         if not pedido_serializer.is_valid():
